@@ -1,0 +1,69 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content_checkout %}
+     <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form id="form">
+					<div id="user-info">
+						<hr>
+							<p>Thông tin người nhận:</p>
+						<hr>
+						<div class="form-field">
+							<input required class="form-control" type="text" name="reci-name" placeholder="Họ tên...">
+						</div>
+                        <div class="form-field">
+							<input required class="form-control" type="SĐT" name="email" placeholder="SĐT...">
+						</div>
+					</div>
+					
+					<div id="shipping-info">
+						<hr>
+						<p>Thông tin giao hàng:</p>
+						<hr>
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="Địa chỉ..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="city" placeholder="Thành phố..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="province" placeholder="Tỉnh..">
+						</div>
+                        
+					</div>
+
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Thanh toán">
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info">
+				<small>Paypal Options</small>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Quay lại giỏ hàng</a>
+				<hr>
+				<h3>Đơn hàng</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.ImageURL}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:2"><p>{{item.product.price|intcomma:0}} VNĐ</p></div>
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+				{% endfor %}
+				<h5>Sản phẩm:   {{order.get_total_cart_items_choiced}}</h5>
+				<h5>Thành tiền: {{order.get_total_cart_price_choiced|intcomma:0}} VNĐ</h5>
+			</div>
+		</div>
+		<script src="{% static 'app/js/checkout.js' %}"></script>
+	</div>
+{% endblock content_checkout %}

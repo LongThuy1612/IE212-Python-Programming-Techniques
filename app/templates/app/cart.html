@@ -1,0 +1,69 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block cart_content %}
+<div class="row">
+	<div class="col-lg-12">
+		<div class="box-element">
+
+			<a  class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Tiếp tục mua hàng</a>
+
+			<br>
+			<br>
+			<table class="table">
+				<tr>
+					<th><h5>Tổng sản phẩm: <strong>{{order.get_total_cart_items_choiced}}</strong></h5></th>
+					<th><h5>Thành tiền:<strong>{{order.get_total_cart_price_choiced|intcomma:0 }} VNĐ</strong></h5></th>
+					<th>
+						<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Thanh toán</a>
+					</th>
+				</tr>
+			</table>
+
+		</div>
+
+		<br>
+		<div class="box-element">
+			<div class="cart-row">
+				<div style="flex:2">
+					<input type="checkbox" id="select-all" style='margin: 0 10px 0 20px' 
+					{% if all_selected %}checked{% endif %}/>
+					<label><strong>Chọn tất cả</strong></label>
+					<button id="delete-selected" class="btn btn-danger" style="margin-left: 50px">Xóa</button>
+				</div>
+				<div style="flex:2"><strong>Sản phẩm</strong></div>
+				<div style="flex:1"><strong>Giá</strong></div>
+				<div style="flex:1"><strong>Số lượng</strong></div>
+				<div style="flex:1"><strong>Thành tiền</strong></div>
+			</div>
+			{% if items %}
+				{% for item in items  %}
+				<div class="cart-row">
+					<div style="flex:2">
+						<input type="checkbox" class="item-checkbox" style='margin: 0 10px 0 20px' 
+               data-product="{{ item.product.id }}" {% if item.choiced %}checked{% endif %}/>
+						<img class="row-image" src="{{item.product.ImageURL}}">
+					</div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:1"><p>{{item.product.price|intcomma:0 }} VNĐ </p></div>
+					<div style="flex:1">
+						<div class="quantity update-cart" style="cursor: pointer" data-product = {{item.product.id}} data-action = 'remove'> 
+							-
+						</div>
+						<p class="quantity">{{item.quantity}}</p>
+						<div class="quantity update-cart" style="cursor: pointer" data-product = {{item.product.id}} data-action = 'add'> 
+							+
+						</div>
+					</div>
+					<div style="flex:1"><p>{{item.get_each_item_total_price|intcomma:0 }} VNĐ</p></div>
+				</div>
+				{% endfor %}
+			{% else %}
+				<div class="box-element text-center py-4">
+					<p class="lead">Giỏ hàng của bạn hiện đang trống.</p>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock cart_content %}

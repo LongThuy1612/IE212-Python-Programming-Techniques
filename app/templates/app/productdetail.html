@@ -1,0 +1,36 @@
+{%  extends 'app/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHI TIẾT SẢN PHẨM</title>
+    <link rel="stylesheet" href="{% static 'app/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/detailtproduct.css' %}">
+    
+</head>
+<body>
+    <h3>Chi tiết sản phẩm</h3>
+    {% block productDetail %}
+    <div class="product-container">
+        <div class="product-image">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <p>Không có hình ảnh hiển thị</p>
+            {% endif %}
+        </div>
+        <div class="product-details">
+        {% load humanize %}
+            <h1>{{ product.name }}</h1>
+            <p>Mô tả: {{ product.description }}</p>
+            <p class="product-price">Giá xe: <strong>{{ product.price|floatformat:0|intcomma }}</strong> VNĐ</p>
+            <p>Dòng xe: {{ product.motor_type }}</p>
+        </div>
+        <button data-product = {{product.id}} data-action = "add" class="btn btn-outline-secondary add-btn update-cart">
+                    Thêm vào giỏ hàng
+        </button>
+    {% endblock productDetail %}
+</body>
+</html>
